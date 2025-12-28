@@ -1,0 +1,10 @@
+.idea
+.DS_Store
+/vendor
+/var
+/public/bundles
+/public/build
+env.local
+.env.local
+.env.*.local
+docker-compose.override.yml
