@@ -4,7 +4,6 @@ services:
     restart: unless-stopped
     volumes:
       - .:/var/www/html
-      - vendor:/var/www/html/vendor
     ports:
       - "9000:9000"
     environment:
@@ -40,4 +39,3 @@ services:
 
 volumes:
   db-data:
-  vendor:
