@@ -12,13 +12,12 @@ fi
 echo "📦 Fazendo build das imagens Docker..."
 docker compose build
 
-# Instala dependências do Composer
-echo "📚 Instalando dependências do Composer..."
-docker compose run --rm php composer install
-
-# Inicia os containers
+# Inicia os containers (dependências serão instaladas automaticamente)
 echo "🐳 Iniciando containers..."
 docker compose up -d
+
+echo "⏳ Aguardando containers iniciarem..."
+sleep 5
 
 echo ""
 echo "✅ Vialum está rodando!"
