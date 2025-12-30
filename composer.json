@@ -14,9 +14,11 @@
         "symfony/yaml": "7.2.*",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/orm": "^3.0",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
         "symfony/orm-pack": "*"
     },
     "require-dev": {
+        "symfony/maker-bundle": "^1.52"
     },
     "config": {
         "allow-plugins": {

@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # Servidor Web Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: vialum_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./public:/var/www/html/public:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php
+    networks:
+      - vialum
+
+  # PHP-FPM
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: vialum_php
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=${APP_ENV:-dev}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}?serverVersion=15&charset=utf8
+    depends_on:
+      - database
+    networks:
+      - vialum
+
+  # PostgreSQL Database
+  database:
+    image: postgres:15-alpine
+    container_name: vialum_database
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-vialum}
+      POSTGRES_USER: ${POSTGRES_USER:-vialum}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - vialum
+
+networks:
+  vialum:
+    driver: bridge
+
+volumes:
+  db_data:
